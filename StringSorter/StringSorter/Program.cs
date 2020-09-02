@@ -9,8 +9,9 @@ namespace StringSorter
         static void Main(string[] args)
         {
             var inputList = new List<string>();
-            var shuffleList = new List<string>();
+            var validList = new List<string>();
             var intCheckList = new List<int>();
+            Random rng = new Random();
 
             for (int i = 0; inputList.Count < 10; i++)
             {
@@ -32,21 +33,22 @@ namespace StringSorter
             {
                 if (IsValid(word))
                 {
-                    shuffleList.Add(word);
+                    validList.Add(word);
                 }
             }
 
-            for (int i = 0; i < shuffleList.Count - 1; i++)
+            if (validList.Count > 1)
             {
-                Random r = new Random();
-                int rInt = r.Next(0, shuffleList.Count - 1);
-                
-                if (!intCheckList.Contains(rInt))
-                {
-                    Console.Write(shuffleList[rInt] + " ");
-                }
+                var shuffledList = validList.OrderBy(a => rng.Next());
 
-                intCheckList.Add(rInt);
+                foreach (var word in shuffledList)
+                {
+                    Console.Write(word + " ");
+                }
+            }
+            else
+            {
+                Console.WriteLine("You have not entered enough valid words.");
             }
         }
 
