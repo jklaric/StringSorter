@@ -11,7 +11,7 @@ namespace StringSorter
             var inputList = new List<string>();
             var validList = new List<string>();
             var intCheckList = new List<int>();
-            Random rng = new Random();
+            var rng = new Random();
 
             for (int i = 0; inputList.Count < 10; i++)
             {
@@ -37,29 +37,25 @@ namespace StringSorter
                 }
             }
 
-            if (validList.Count > 1)
+            if (validList.Count > 0)
             {
                 var shuffledList = validList.OrderBy(a => rng.Next());
-
-                foreach (var word in shuffledList)
-                {
-                    Console.Write(word + " ");
-                }
+                Console.Write(string.Join(" ", shuffledList));
             }
             else
             {
-                Console.WriteLine("You have not entered enough valid words.");
+                Console.WriteLine("Not enough valid words...");
             }
-        }
 
-        static bool IsValid(string word)
-        {
-            if (word.StartsWith(word.LastOrDefault()))
+            static bool IsValid(string word)
             {
-                return true;
-            }
+                if (word.StartsWith(word.LastOrDefault()))
+                {
+                    return true;
+                }
 
-            return false;
+                return false;
+            }
         }
     }
 }
