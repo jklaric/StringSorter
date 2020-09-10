@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace StringSorter
@@ -9,7 +10,6 @@ namespace StringSorter
         static void Main(string[] args)
         {
             var inputList = new List<string>();
-            var validList = new List<string>();
             var intCheckList = new List<int>();
             var rng = new Random();
 
@@ -29,32 +29,25 @@ namespace StringSorter
                 }
             }
 
-            foreach (var word in inputList)
-            {
-                if (IsValid(word))
-                {
-                    validList.Add(word);
-                }
-            }
+            var shuffledList = IsValid(inputList).OrderBy(a => rng.Next());
+            Console.Write(string.Join(" ", shuffledList));
 
-            if (validList.Count > 0)
+            static List<string> IsValid(List<string> inputList)
             {
-                var shuffledList = validList.OrderBy(a => rng.Next());
-                Console.Write(string.Join(" ", shuffledList));
-            }
-            else
-            {
-                Console.WriteLine("Not enough valid words...");
-            }
+                var validList = new List<string>();
 
-            static bool IsValid(string word)
-            {
-                if (word.StartsWith(word.LastOrDefault()))
+                for (int i = 0; i < inputList.Count - 1; i++)
                 {
-                    return true;
+                    for (int j = 0; j < inputList.Count - 1; j++)
+                    {
+                        if (inputList[i].StartsWith(inputList[j].LastOrDefault()) && !validList.Contains(inputList[j]))
+                        {
+                            validList.Add(inputList[j]);
+                        }
+                    }
                 }
 
-                return false;
+                return validList;
             }
         }
     }
